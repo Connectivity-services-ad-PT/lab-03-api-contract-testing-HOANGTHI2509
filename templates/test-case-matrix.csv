@@ -1,6 +1,7 @@
 ID,Folder,Endpoint,Method,Scenario,Input file/body,Expected status,Expected response check,Type,Pass/Fail,Evidence
-TC01,Functional,/health,GET,Service is alive,-,200,status=ok,functional,,
-TC02,Functional,/readings,POST,Create reading happy path,mock-data/sensor-reading-valid.json,201,"has reading_id, accepted=true",functional,,
-TC03,Negative,/readings,POST,Missing device_id,mock-data/sensor-reading-invalid-missing-device.json,400,Problem Details,negative,,
-TC04,Auth,/readings,POST,Missing token,mock-data/sensor-reading-valid.json,401,Problem Details,auth,,
-TC05,Boundary,/readings,POST,High temperature boundary,mock-data/sensor-reading-boundary.json,201/400,documented behavior,boundary,,
+TC01,01_Functional,/alerts,POST,Happy path create alert,JSON Body,201,"has id, status",functional,Pass,newman-report.html
+TC02,02_Auth,/events,POST,Missing Token,JSON Body,401,-,auth,Pass,newman-report.html
+TC03,03_Negative,/events,POST,Invalid Payload,JSON Body,422,Problem Details,negative,Pass,newman-report.html
+TC04,04_Boundary,/alerts/recent,GET,Limit 101,-,422,-,boundary,Pass,newman-report.html
+TC05,05_Consumer_side_Smoke,/vision/face-match,POST,Call AI Vision Mock,JSON Body,201,"faceMatched, detectionId",smoke,Pass,newman-report.html
+TC06,06_Local_only,/health,GET,Latency under 1000ms,-,200,-,non-functional,Pass,newman-report.html
